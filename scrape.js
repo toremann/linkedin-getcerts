@@ -1,25 +1,51 @@
 const puppeteer = require("puppeteer");
 
+// get url's from mongodb
+
+// Promiss all, check if urls have been scraped
+
 (async () => {
-  const browser = await puppeteer.launch();
+  const data = [];
+  const url =
+    "https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca89e3f7b83ba458cc0befe4d21cd6f02";
+
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   await page.setUserAgent(
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
   );
 
-  await page.goto(
-    "https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca89e3f7b83ba458cc0befe4d21cd6f02"
-  );
-
-  new Promise((r) => setTimeout(r, 3000));
+  await page.goto(url);
 
   const grabCourse = await page.evaluate(() => {
-    const divTag = document.querySelectorAll(".lls-card-headline")[0].innerText;
-    return divTag;
+    const courseTitle = document.querySelectorAll(
+      ".base-search-card__info h3"
+    )[0].innerText;
+    return courseTitle;
   });
 
-  console.log(grabCourse);
+  const grabAuthor = await page.evaluate(() => {
+    const courseAuthor = document.querySelectorAll(
+      ".base-search-card__info h4"
+    )[0].innerText;
+    return courseAuthor.slice(4);
+  });
+
+  const grabDate = await page.evaluate(() => {
+    const courseDate = document.querySelector(
+      "#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section.core-section-container.my-3.certificate-details__completion-date > div > ul > li > span"
+    ).innerText;
+    return courseDate;
+  });
+
+  data.push({
+    author: grabAuthor,
+    course: grabCourse,
+    date_completed: grabDate,
+  });
+
+  console.log(data);
 
   await browser.close();
 })();
