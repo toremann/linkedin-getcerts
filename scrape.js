@@ -1,11 +1,14 @@
 const puppeteer = require("puppeteer");
+const connectDB = require("./db/db");
+const Certs = require("./db/Schema");
+
+connectDB();
 
 // get url's from mongodb
 
 // Promiss all, check if urls have been scraped
 
 (async () => {
-  const data = [];
   const url =
     "https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca89e3f7b83ba458cc0befe4d21cd6f02";
 
@@ -39,13 +42,27 @@ const puppeteer = require("puppeteer");
     return courseDate;
   });
 
-  data.push({
+  let data = {
     author: grabAuthor,
     course: grabCourse,
     date_completed: grabDate,
-  });
+    url: url,
+  };
+
+  // Certs.findOneAndUpdate(
+  //   { url: data[0].url },
+  //   data,
+  //   { upsert: true, new: true },
+  //   function (error, result) {
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       console.log("Saved to db:", data);
+  //     }
+  //   }
+  // );
 
   console.log(data);
 
-  await browser.close();
+  // await browser.close();
 })();

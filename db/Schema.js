@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 
 const certSchema = new mongoose.Schema(
   {
-    url: String,
-    completion: Date,
+    author: String,
     course: String,
-    by: String,
+    date_completed: String,
+    url: String,
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("certs", certSchema);
+module.exports = mongoose.model("Certs", certSchema);
