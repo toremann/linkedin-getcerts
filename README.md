@@ -1,9 +1,24 @@
-* Linkedin Certification scraper
+# Linkedin Certification scraper.
 
-** Get data and push to mongoDB
+As im progressing through Linkedin Learning im getting a few certificates. I want to show these on my own homepage, so I created this nifty scraper.
 
-Create a free mongodb database at www.mongodb.com
+As you complete courses you will be supplied an URL too ur linkedin certificate:
 
-Your .env file should look like this:
+https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca89e3f7b83ba458cc0befe4d21cd6f02
 
-MONGO_URI=mongodb+srv://user:password@collection.mongodb.net/?retryWrites=true&w=majority
+simply paste this URL into the scraper and run.
+
+Scraper will get: 
+- course name
+- author
+- completion date
+- videos total length
+- amount of videos
+
+and send it to ur mongodb db. 
+
+
+
+ex: .env file should hold ur mongodb information:
+
+`MONGO_URI=mongodb+srv://user:password@collection.mongodb.net/?retryWrites=true&w=majority`

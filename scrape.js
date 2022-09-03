@@ -9,7 +9,7 @@ connectDB();
 // Promiss all, check if urls have been scraped
 
 const url = 
-"https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca89e3f7b83ba458cc0befe4d21cd6f02";
+"https://www.linkedin.com/learning/certificates/1d1e55c5b4f39beac364c4d4ed8f1ce11858d226ce003a26462bdba037c1228f";
 
 
 (async () => {
@@ -44,11 +44,27 @@ const url =
     return courseDate;
   });
 
+  const grabTime = await page.evaluate(() => {
+    const courseTime = document.querySelector(
+      "#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section:nth-child(3) > div > ul > li.certificate-details__content-details-item.certificate-details__content-details-item--content-duration > span"
+    ).innerText;
+    return courseTime;
+  });
+
+  const grabVideos = await page.evaluate(() => {
+    const courseVideos = document.querySelector(
+      "#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section:nth-child(3) > div > ul > li.certificate-details__content-details-item.certificate-details__content-details-item--videos-count > span"
+    ).innerText;
+    return courseVideos;
+  });
+
   const data = {
     author: grabAuthor,
     course: grabCourse,
     date_completed: grabDate,
     url: url,
+    time: grabTime,
+    videos: grabVideos
   }
 
   Certs.findOneAndUpdate(
@@ -59,13 +75,13 @@ const url =
     if (error) {
       console.log(error);
     } else {
-      console.log("Saved to db:", data);
+      console.log(result);
     }
   }
 );
 
   console.log(data);
 
-  // await browser.close();
+  await browser.close();
 })();
 
