@@ -17,8 +17,8 @@ Scraper will get:
 
 and send it to ur mongodb db. 
 
-
-
 ex: .env file should hold ur mongodb information:
 
 `MONGO_URI=mongodb+srv://user:password@collection.mongodb.net/?retryWrites=true&w=majority`
+
+### Run with node scrape from project folder

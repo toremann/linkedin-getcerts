@@ -2,11 +2,15 @@ const puppeteer = require("puppeteer");
 const connectDB = require("./db/db");
 const Certs = require("./db/Schema");
 
-connectDB();
+// Check for .env file with MONGO_URI before connecting
 
-// get url's from mongodb
-
-// Promiss all, check if urls have been scraped
+if(process.env.MONGO_URI) { 
+  connectDB();
+}
+else { 
+  console.log('Couldnt find MONGO_URI in .env'); 
+  process.exit(1)
+}
 
 const url = 
 "https://www.linkedin.com/learning/certificates/1d1e55c5b4f39beac364c4d4ed8f1ce11858d226ce003a26462bdba037c1228f";
@@ -75,12 +79,12 @@ const url =
     if (error) {
       console.log(error);
     } else {
-      console.log(result);
+      console.log('Saved to DB:\n', result);
     }
   }
 );
 
-  console.log(data);
+  // console.log(data);
 
   await browser.close();
 })();
