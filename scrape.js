@@ -1,8 +1,12 @@
 const puppeteer = require("puppeteer");
 const connectDB = require("./db/db");
 const Certs = require("./db/Schema");
+const prompt = require('prompt-sync')({sigint: true});
 
 // Check for .env file with MONGO_URI before connecting
+
+console.log('\n\nExample: https://www.linkedin.com/learning/certificates/dfc7a36fa80cfebad55937f6f33a15189e4058ere56834f48e708a40b1474319\n')
+let url = prompt('Paste url: ');
 
 if(process.env.MONGO_URI) { 
   connectDB();
@@ -11,10 +15,6 @@ else {
   console.log('Couldnt find MONGO_URI in .env'); 
   process.exit(1)
 }
-
-const url = 
-"https://www.linkedin.com/learning/certificates/1d1e55c5b4f39beac364c4d4ed8f1ce11858d226ce003a26462bdba037c1228f";
-
 
 (async () => {
 
@@ -88,4 +88,5 @@ const url =
 
   await browser.close();
 })();
+
 
