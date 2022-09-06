@@ -17,8 +17,14 @@ Scraper will get:
 
 and send it to ur mongodb db. 
 
+Requirements:
+- mongodb cloud account and database
+- .env file with mongo URI
+
 ex: .env file should hold ur mongodb information:
 
 `MONGO_URI=mongodb+srv://user:password@collection.mongodb.net/?retryWrites=true&w=majority`
+
+- run npm install to get dependencies
 
 ### Run with node scrape from project folder

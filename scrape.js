@@ -71,7 +71,5 @@ if (process.env.MONGO_URI) {
         }
     });
 
-    // console.log(data);
-
     await browser.close();
 })();
