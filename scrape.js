@@ -15,6 +15,10 @@ if (process.env.MONGO_URI) {
     process.exit(1);
 }
 
+function timeout(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 (async () => {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -22,6 +26,10 @@ if (process.env.MONGO_URI) {
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
 
     await page.goto(url);
+
+    // Wait for page to fully load
+    await timeout(3000);
+    console.log('Waiting for page load');
 
     const grabCourse = await page.evaluate(() => {
         const courseTitle = document.querySelectorAll('.base-search-card__info h3')[0].innerText;
