@@ -1,12 +1,12 @@
 const puppeteer = require('puppeteer');
 const connectDB = require('./db/db');
 const Certs = require('./db/Schema');
-const prompt = require('prompt-sync')({ sigint: true });
+const readlineSync = require('readline-sync');
 
 // Check for .env file with MONGO_URI before connecting
 
 console.log('\n\nExample: https://www.linkedin.com/learning/certificates/dfc7a36fa80cfebad55937f6f33a15189e4058ere56834f48e708a40b1474319\n');
-let url = prompt('Paste url: ');
+const url = readlineSync.question('Paste url: ')
 
 if (process.env.MONGO_URI) {
     connectDB();
@@ -20,10 +20,8 @@ function timeout(ms) {
 }
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: true, args: ['--lang=en-EN,en']});
     const page = await browser.newPage();
-
-    await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
 
     await page.goto(url);
 
@@ -80,4 +78,5 @@ function timeout(ms) {
     });
 
     await browser.close();
+    process.exit(1)
 })();
