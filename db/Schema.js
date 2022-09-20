@@ -7,6 +7,7 @@ const certSchema = new mongoose.Schema({
     url: String,
     time: String,
     videos: String,
+    category: Array, /* Maybe array? */
 });
 
 module.exports = mongoose.model('Certs', certSchema);

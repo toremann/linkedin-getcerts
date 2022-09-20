@@ -60,6 +60,15 @@ function timeout(ms) {
         return courseVideos;
     });
 
+
+    // Loop, expect more than one category
+    const grabCategory = await page.evaluate(() => {
+        const courseVideos = document.querySelector(
+            ' '
+        ).innerText;
+        return grabCategory;
+    });
+
     const data = {
         author: grabAuthor,
         course: grabCourse,
@@ -67,15 +76,18 @@ function timeout(ms) {
         url: url,
         time: grabTime,
         videos: grabVideos,
+        category: grabCategory
     };
 
-    Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Saved to DB:\n', result);
-        }
-    });
+    console.log(data)
+
+    // Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
+    //     if (error) {
+    //         console.log(error);
+    //     } else {
+    //         console.log('Saved to DB:\n', result);
+    //     }
+    // });
 
     await browser.close();
     process.exit(1)
