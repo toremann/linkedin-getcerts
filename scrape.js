@@ -2,44 +2,36 @@ const puppeteer = require('puppeteer');
 const connectDB = require('./db/db');
 const Certs = require('./db/Schema');
 const readlineSync = require('readline-sync');
+const colors = require('colors');
 
+console.log('\n\nExample: https://www.linkedin.com/learning/certificates/dfc7a36fa80cfebad55937f6f33a15189e4058ere56834f48e708a40b1474319\n'.blue.underline);
+const url = readlineSync.question('Paste url: \n'.green);
 
-// Check for .env file with MONGO_URI before connecting
-
-console.log('\n\nExample: https://www.linkedin.com/learning/certificates/dfc7a36fa80cfebad55937f6f33a15189e4058ere56834f48e708a40b1474319\n');
-// const url = readlineSync.question('Paste url: ')
-
-// Test url for single category
-// const url = 'https://www.linkedin.com/learning/certificates/55c480bc77abb6446ce037225af55023a4ba8fdb71f3ad32ef9937d66750dde4'
-
-// Test url for multiple categories
-const url = 'https://www.linkedin.com/learning/certificates/25a52b38f76e2dfc08beb58802cf8ae058440b30f62a1171af64f66af17bec01'
-
-// if (process.env.MONGO_URI) {
-//     connectDB();
-// } else {
-//     console.log('Couldnt find MONGO_URI in .env');
-//     process.exit(1);
-// }
+if (process.env.MONGO_URI) {
+    connectDB();
+} else {
+    console.log('Couldnt find MONGO_URI in .env'.red);
+    process.exit(1);
+}
 
 function timeout(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: false, args: ['--lang=en-EN,en']});
+    const browser = await puppeteer.launch({ headless: true, args: ['--lang=en-EN,en'] });
     const page = await browser.newPage();
 
-    // Set english chromium, we can see categories of the course with language set to english (?)
+    // Set chromium to english, we can see categories of the course with language set to english (?)
     await page.setExtraHTTPHeaders({
-        'Accept-Language': 'en'
+        'Accept-Language': 'en',
     });
 
     await page.goto(url);
 
     // Wait for page to fully load
+    console.log('Scraping...\n'.cyan);
     await timeout(3000);
-    console.log('Waiting for page load');
 
     const grabCourse = await page.evaluate(() => {
         const courseTitle = document.querySelectorAll('.base-search-card__info h3')[0].innerText;
@@ -72,15 +64,14 @@ function timeout(ms) {
         return courseVideos;
     });
 
-
-    // Loop, expect more than one category
     const grabCategory = await page.evaluate(() => {
-        const courseCategory = Array.from(document.querySelectorAll(
-            '#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section.core-section-container.my-3.course-skills > div > ul > li > a'
-        ))
-        return courseCategory.map(a => {
-            a.innerText;
-        })
+        const courseCategory = Array.from(
+            document.querySelectorAll(
+                '#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section.core-section-container.my-3.course-skills > div > ul > li > a'
+            ),
+            (e) => e.innerText
+        );
+        return courseCategory;
     });
 
     const data = {
@@ -90,21 +81,18 @@ function timeout(ms) {
         url: url,
         time: grabTime,
         videos: grabVideos,
-        category: grabCategory
+        category: grabCategory,
     };
-    
-    // getting the correct length - wrong output
-    console.log(grabCategory.length)
-    console.log(data)
 
-    // Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
-    //     if (error) {
-    //         console.log(error);
-    //     } else {
-    //         console.log('Saved to DB:\n', result);
-    //     }
-    // });
+    Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Saved to db:\n'.green);
+            console.log(`${result}\n`);
+        }
+    });
 
-    // await browser.close();
-    // process.exit(1)
+    await browser.close();
+    process.exit(1);
 })();

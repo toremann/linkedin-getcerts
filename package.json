@@ -1,22 +1,25 @@
 {
-  "name": "linkedin-getcerts",
-  "version": "1.0.0",
-  "description": "get certificate data and push to mongoDB",
-  "main": "index.js",
-  "scripts": {
-    "format": "prettier --write \"**/*.{js,jsx,md}\""
-  },
-  "author": "Toremann",
-  "license": "ISC",
-  "devDependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^10.0.0",
-    "prettier": "^2.7.1"
-  },
-  "dependencies": {
-    "dotenv": "^16.0.2",
-    "mongoose": "^6.5.4",
-    "puppeteer": "^17.0.0",
-    "readline-sync": "^1.4.10"
-  }
+    "name": "linkedin-getcerts",
+    "version": "2.0.0",
+    "description": "Get certificate data and push to mongoDB",
+    "main": "index.js",
+    "scripts": {
+        "format": "prettier --write \"**/*.{js,jsx,md}\"",
+        "scrape": "node scrape",
+        "rescrape": "node rescrape"
+    },
+    "author": "Toremann",
+    "license": "ISC",
+    "devDependencies": {
+        "chai": "^4.3.6",
+        "mocha": "^10.0.0",
+        "prettier": "^2.7.1"
+    },
+    "dependencies": {
+        "colors": "^1.4.0",
+        "dotenv": "^16.0.2",
+        "mongoose": "^6.5.4",
+        "puppeteer": "^17.0.0",
+        "readline-sync": "^1.4.10"
+    }
 }
