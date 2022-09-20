@@ -75,10 +75,12 @@ function timeout(ms) {
 
     // Loop, expect more than one category
     const grabCategory = await page.evaluate(() => {
-        const courseCategory = document.querySelector(
+        const courseCategory = Array.from(document.querySelectorAll(
             '#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section.core-section-container.my-3.course-skills > div > ul > li > a'
-        ).innerText;
-        return courseCategory;
+        ))
+        return courseCategory.map(a => {
+            a.innerText;
+        })
     });
 
     const data = {
@@ -90,7 +92,9 @@ function timeout(ms) {
         videos: grabVideos,
         category: grabCategory
     };
-
+    
+    // getting the correct length - wrong output
+    console.log(grabCategory.length)
     console.log(data)
 
     // Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
