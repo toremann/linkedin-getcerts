@@ -1,6 +1,5 @@
 const connectDB = require('./db/db');
 const Certs = require('./db/Schema');
-const colors = require('colors');
 
 if (process.env.MONGO_URI) {
     connectDB();

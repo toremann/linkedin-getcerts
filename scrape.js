@@ -19,7 +19,7 @@ function timeout(ms) {
 }
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: true, args: ['--lang=en-EN,en'] });
+    const browser = await puppeteer.launch({ headless: false, args: ['--lang=en-EN,en'] });
     const page = await browser.newPage();
 
     // Set chromium to english, we can see categories of the course with language set to english (?)
@@ -45,21 +45,21 @@ function timeout(ms) {
 
     const grabDate = await page.evaluate(() => {
         const courseDate = document.querySelector(
-            '#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section.core-section-container.my-3.certificate-details__completion-date > div > ul > li > span'
+            'section.core-section-container.my-3.certificate-details__completion-date > div > ul > li > span'
         ).innerText;
         return courseDate;
     });
 
     const grabTime = await page.evaluate(() => {
         const courseTime = document.querySelector(
-            '#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section:nth-child(3) > div > ul > li.certificate-details__content-details-item.certificate-details__content-details-item--content-duration > span'
+            'li.certificate-details__content-details-item.certificate-details__content-details-item--content-duration > span'
         ).innerText;
         return courseTime;
     });
 
     const grabVideos = await page.evaluate(() => {
         const courseVideos = document.querySelector(
-            '#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section:nth-child(3) > div > ul > li.certificate-details__content-details-item.certificate-details__content-details-item--videos-count > span'
+            'section:nth-child(3) > div > ul > li.certificate-details__content-details-item.certificate-details__content-details-item--videos-count > span'
         ).innerText;
         return courseVideos;
     });
@@ -67,7 +67,7 @@ function timeout(ms) {
     const grabCategory = await page.evaluate(() => {
         const courseCategory = Array.from(
             document.querySelectorAll(
-                '#main-content > section > div.certificate-details__info > div.certificate-details__left-rail > section.core-section-container.my-3.course-skills > div > ul > li > a'
+                'div.certificate-details__left-rail > section.core-section-container.my-3.course-skills > div > ul > li > a'
             ),
             (e) => e.innerText
         );
@@ -84,15 +84,17 @@ function timeout(ms) {
         category: grabCategory,
     };
 
-    Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Saved to db:\n'.green);
-            console.log(`${result}\n`);
-        }
-    });
+    console.log(data)
 
-    await browser.close();
-    process.exit(1);
+    // Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
+    //     if (error) {
+    //         console.log(error);
+    //     } else {
+    //         console.log('Saved to db:\n'.green);
+    //         console.log(`${result}\n`);
+    //     }
+    // });
+
+    // await browser.close();
+    // process.exit(1);
 })();
