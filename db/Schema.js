@@ -7,7 +7,15 @@ const certSchema = new mongoose.Schema({
     url: String,
     time: String,
     videos: String,
-    category: [String] /* Maybe array? */,
+    category: [String],
 });
 
 module.exports = mongoose.model('Certs', certSchema);
+
+const statsSchema = new mongoose.Schema({
+    totalTime: Number,
+    videosAmount: Number,
+    certsAmount: Number,
+});
+
+module.exports = mongoose.model('Certs', statsSchema);
