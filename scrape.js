@@ -86,15 +86,15 @@ function timeout(ms) {
 
     console.log(data)
 
-    // Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
-    //     if (error) {
-    //         console.log(error);
-    //     } else {
-    //         console.log('Saved to db:\n'.green);
-    //         console.log(`${result}\n`);
-    //     }
-    // });
+    Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Saved to db:\n'.green);
+            console.log(`${result}\n`);
+        }
+    });
 
-    // await browser.close();
-    // process.exit(1);
+    await browser.close();
+    process.exit(1);
 })();

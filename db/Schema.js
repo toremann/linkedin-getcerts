@@ -12,10 +12,10 @@ const certSchema = new mongoose.Schema({
 
 module.exports = mongoose.model('Certs', certSchema);
 
-const statsSchema = new mongoose.Schema({
-    totalTime: Number,
-    videosAmount: Number,
-    certsAmount: Number,
-});
+// const statsSchema = new mongoose.Schema({
+//     totalTime: Number,
+//     videosAmount: Number,
+//     certsAmount: Number,
+// });
 
-module.exports = mongoose.model('Certs', statsSchema);
+// module.exports = mongoose.model('Stats', statsSchema);
