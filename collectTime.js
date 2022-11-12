@@ -12,28 +12,38 @@ if (process.env.MONGO_URI) {
 
 (async () => {
     Certs.find({}, function (err, res) {
-        let totalTime = [];
+        const timeArr = []
+        let total = { houres: 0, minutes: 0, seconds: 0 };;
 
         const convertTime = (time) => [...time.matchAll(/(\d+)([hms])/g)].reduce((acc, match) => ({...acc, [match[2]]: match[1]}), {})
 
-        const sum = totalTime.reduce(
-            (accumulator, currentValue) => accumulator.h + currentValue.h,
-            0,
-          );
-
         res.forEach(function (cert) {
             console.log(convertTime(cert.time))
-            totalTime.push(convertTime(cert.time));
+            timeArr.push(convertTime(cert.time));
             
         });
 
-        totalTime.forEach(function (houres) {
-            if (typeof houres.h == 'undefined') {
-                console.log('No houres found!')
+        for (let i = 0; i < timeArr.length; i++) {
+            if (typeof timeArr[i].h == "undefined") {
+              total.houres += 0
             } else {
-                console.log(typeof parseInt(houres.h), houres.h)
+              total.houres += parseInt(timeArr[i].h);
             }
-        })
+            
+            if (typeof timeArr[i].m == "undefined") {
+              total.minutes += 0
+            } else {
+              total.minutes += parseInt(timeArr[i].m);
+            }
+        
+            if (typeof timeArr[i].s == "undefined") {
+              total.seconds += 0
+            } else {
+              total.seconds += parseInt(timeArr[i].s);
+            }
+        }
+        
+        console.log(total);
 
         process.exit(1);
     });
