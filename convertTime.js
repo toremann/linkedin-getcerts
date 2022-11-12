@@ -1,45 +1,19 @@
-let time = "1h 30m 20s";
+const timeArr = ['1h 30m 20s', '2h 20m 30s', '3h 30m 20s'];
 
-const testTime = time.split(" ");
+const newArr = [];
 
-const convertTime = () => {
-  let newTime = {
-    h: 0,
-    m: 0,
-    s: 0,
-  };
+const convertTime = (time) => [...time.matchAll(/(\d+)([hms])/g)].reduce((acc, match) => ({ ...acc, [match[2]]: match[1] }), {});
 
-  if (testTime.length == 3) {
-    haveHoures = true;
-  } else {
-    haveHoures = false;
-  }
+timeArr.forEach((element) => {
+    newArr.push(convertTime(element));
+});
 
-  if (haveHoures == true) {
-    newTime.h = testTime[0].replace("h", "");
-  }
+console.log(newArr);
 
-  if (haveHoures == true) {
-    newTime.m = testTime[1].replace("m", "");
-  }
+const sum = newArr.reduce((previousValue, currentValue) => previousValue.h + currentValue.h, 0);
 
-  if (haveHoures == true) {
-    newTime.s = testTime[2].replace("s", "");
-  }
+const { h } = newArr
 
-  if (haveHoures == false) {
-    newTime.h = 0;
-  }
+console.log(h)
 
-  if (haveHoures == false) {
-    newTime.m = testTime[0].replace("m", "");
-  }
-
-  if (haveHoures == false) {
-    newTime.s = testTime[1].replace("s", "");
-  }
-
-  console.log(newTime);
-};
-
-convertTime();
+console.log('total', sum);
