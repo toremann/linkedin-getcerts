@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const connectDB = require('./db/db');
-const Certs = require('./db/Schema');
+const Certs = require('./db/certSchema');
 const readlineSync = require('readline-sync');
 const colors = require('colors');
 

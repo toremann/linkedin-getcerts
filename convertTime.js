@@ -17,21 +17,24 @@ for (let i = 0; i < newArr.length; i++) {
     if (typeof newArr[i].s !== 'undefined') total.seconds += parseInt(newArr[i].s);
 }
 
-console.log(total);
-console.log(total.minutes / 60);
-console.log(Math.floor(total.seconds / 60))
+console.log('before convert seconds/minutes:', total);
 
-function toHoursAndMinutes(totalMinutes) {
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-  return `${hours}h${minutes > 0 ? ` ${minutes}m` : ''}`;
-}
-
-function toMinutes(totalSeconds) {
+const toMinutes = (totalSeconds) => {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
-  return `${minutes}m${seconds > 0 ? ` ${seconds}s` : ''}`;
+  total.minutes += minutes
+  total.seconds = seconds
 }
 
-console.log('minutes to houres:', toHoursAndMinutes(total.minutes)); // 1h 40m
-console.log('seconds to minutes:', toMinutes(total.seconds))
+toMinutes(total.seconds)
+
+const toHours = (totalMinutes) => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  total.houres += hours
+  total.minutes = minutes
+}
+
+toHours(total.minutes)
+
+console.log('after adding houres/minutes:', total);

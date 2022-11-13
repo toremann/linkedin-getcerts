@@ -8,42 +8,47 @@ if (process.env.MONGO_URI) {
     process.exit(1);
 }
 
-
-
 (async () => {
     Certs.find({}, function (err, res) {
-        const timeArr = []
-        let total = { houres: 0, minutes: 0, seconds: 0 };;
+        const timeArr = [];
 
-        const convertTime = (time) => [...time.matchAll(/(\d+)([hms])/g)].reduce((acc, match) => ({...acc, [match[2]]: match[1]}), {})
+        let total = { houres: 0, minutes: 0, seconds: 0 };
+
+        const convertTime = (time) => [...time.matchAll(/(\d+)([hms])/g)].reduce((acc, match) => ({ ...acc, [match[2]]: match[1] }), {});
 
         res.forEach(function (cert) {
-            console.log(convertTime(cert.time))
             timeArr.push(convertTime(cert.time));
-            
         });
 
         for (let i = 0; i < timeArr.length; i++) {
-            if (typeof timeArr[i].h == "undefined") {
-              total.houres += 0
-            } else {
-              total.houres += parseInt(timeArr[i].h);
-            }
-            
-            if (typeof timeArr[i].m == "undefined") {
-              total.minutes += 0
-            } else {
-              total.minutes += parseInt(timeArr[i].m);
-            }
-        
-            if (typeof timeArr[i].s == "undefined") {
-              total.seconds += 0
-            } else {
-              total.seconds += parseInt(timeArr[i].s);
-            }
+            if (typeof timeArr[i].h !== 'undefined') total.houres += parseInt(timeArr[i].h);
+            if (typeof timeArr[i].m !== 'undefined') total.minutes += parseInt(timeArr[i].m);
+            if (typeof timeArr[i].s !== 'undefined') total.seconds += parseInt(timeArr[i].s);
         }
-        
-        console.log(total);
+
+        console.log('before:', total);
+
+        const toMinutes = (totalSeconds) => {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            total.minutes += minutes;
+            total.seconds = seconds;
+        };
+
+        toMinutes(total.seconds);
+
+        const toHours = (totalMinutes) => {
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            total.houres += hours;
+            total.minutes = minutes;
+        };
+
+        toHours(total.minutes);
+
+        console.log('after:', total);
+
+        console.log('totals certs:', timeArr.length);
 
         process.exit(1);
     });
