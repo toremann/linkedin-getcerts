@@ -1,5 +1,5 @@
 const connectDB = require('./db/db');
-const Certs = require('./db/Schema');
+const Certs = require('./db/certSchema');
 
 if (process.env.MONGO_URI) {
     connectDB();
