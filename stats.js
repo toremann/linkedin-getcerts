@@ -1,5 +1,7 @@
 const connectDB = require('./db/db');
 const Certs = require('./db/Schemas/certSchema');
+const Stats = require('./db/Schemas/statsSchema')
+const { getCategories, getTime, getUrls, getVideos } = require("./helpers/collectors")
 
 if (process.env.MONGO_URI) {
     connectDB();
