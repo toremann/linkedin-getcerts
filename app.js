@@ -44,16 +44,12 @@ function timeout(ms) {
     });
 
     const grabDate = await page.evaluate(() => {
-        const courseDate = document.querySelector(
-            'section.core-section-container.my-3.certificate-details__completion-date > div > ul > li > span'
-        ).innerText;
+        const courseDate = document.querySelector('section.core-section-container.my-3.certificate-details__completion-date > div > ul > li > span').innerText;
         return courseDate;
     });
 
     const grabTime = await page.evaluate(() => {
-        const courseTime = document.querySelector(
-            'li.certificate-details__content-details-item.certificate-details__content-details-item--content-duration > span'
-        ).innerText;
+        const courseTime = document.querySelector('li.certificate-details__content-details-item.certificate-details__content-details-item--content-duration > span').innerText;
         return courseTime;
     });
 
@@ -65,12 +61,7 @@ function timeout(ms) {
     });
 
     const grabCategory = await page.evaluate(() => {
-        const courseCategory = Array.from(
-            document.querySelectorAll(
-                'div.certificate-details__left-rail > section.core-section-container.my-3.course-skills > div > ul > li > a'
-            ),
-            (e) => e.innerText
-        );
+        const courseCategory = Array.from(document.querySelectorAll('div.certificate-details__left-rail > section.core-section-container.my-3.course-skills > div > ul > li > a'), (e) => e.innerText);
         return courseCategory;
     });
 
@@ -84,7 +75,7 @@ function timeout(ms) {
         category: grabCategory,
     };
 
-    console.log(data)
+    console.log(data);
 
     Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
         if (error) {

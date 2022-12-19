@@ -1,5 +1,5 @@
-const connectDB = require('./db/db');
-const Certs = require('./db/certSchema');
+const connectDB = require('../db/db');
+const Certs = require('../db/Schemas/certSchema');
 
 if (process.env.MONGO_URI) {
     connectDB();
@@ -16,9 +16,6 @@ if (process.env.MONGO_URI) {
             videos.push(cert.videos);
         });
 
-        console.log(videos);
-        console.log('total videos:', videos.length);
-
         const newArr = [];
 
         let total = { videos: 0 };
@@ -33,7 +30,7 @@ if (process.env.MONGO_URI) {
             total.videos += parseInt(newArr[i].match);
         }
 
-        console.log('total videos', total);
+        console.log('total videos:', total.videos);
 
         process.exit(1);
     });

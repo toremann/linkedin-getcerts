@@ -6,7 +6,7 @@ As you complete courses you will be supplied an URL too ur linkedin certificate:
 
 https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca89e3f7b83ba458cc0befe4d21cd6f02
 
-From project folder run with 'node app' in terminal and paste in url.
+From project folder run with 'npm start' in terminal and paste in url.
 
 Scraper will get:
 - course name

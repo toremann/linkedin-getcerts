@@ -1,6 +1,6 @@
 const connectDB = require('../db/db');
 const Certs = require('../db/Schemas/certSchema');
-const statsSchema = require('../db/Schemas/statsSchema')
+const statsSchema = require('../db/Schemas/statsSchema');
 
 if (process.env.MONGO_URI) {
     connectDB();
@@ -21,7 +21,7 @@ if (process.env.MONGO_URI) {
             return allCats.indexOf(cat) === index;
         });
 
-        console.log(sortedCats);
+        console.log('All categories:', sortedCats);
 
         process.exit(1);
     });

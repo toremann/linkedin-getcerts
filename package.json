@@ -5,8 +5,7 @@
     "main": "index.js",
     "scripts": {
         "format": "prettier --write \"**/*.{js,jsx,md}\"",
-        "scrape": "node scrape",
-        "rescrape": "node rescrape"
+        "start": "node app"
     },
     "author": "Toremann",
     "license": "ISC",

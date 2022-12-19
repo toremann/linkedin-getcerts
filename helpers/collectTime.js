@@ -1,5 +1,5 @@
-const connectDB = require('./db/db');
-const Certs = require('./db/Schemas/certSchema');
+const connectDB = require('../db/db');
+const Certs = require('../db/Schemas/certSchema');
 
 if (process.env.MONGO_URI) {
     connectDB();
@@ -26,8 +26,6 @@ if (process.env.MONGO_URI) {
             if (typeof timeArr[i].s !== 'undefined') total.seconds += parseInt(timeArr[i].s);
         }
 
-        console.log('before:', total);
-
         const toMinutes = (totalSeconds) => {
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
@@ -46,9 +44,7 @@ if (process.env.MONGO_URI) {
 
         toHours(total.minutes);
 
-        console.log('after:', total);
-
-        console.log('totals certs:', timeArr.length);
+        console.log('Total time:', total);
 
         process.exit(1);
     });
