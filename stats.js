@@ -1,11 +1,19 @@
 const connectDB = require('./db/db');
-const Certs = require('./db/Schemas/certSchema');
-const Stats = require('./db/Schemas/statsSchema')
-const { getCategories, getTime, getUrls, getVideos } = require("./helpers/collectors")
+const Stats = require('./db/Schemas/statsSchema');
+const { getCategories, getTime, getUrls, getVideos } = require('./helpers/collectors');
 
-if (process.env.MONGO_URI) {
-    connectDB();
-} else {
-    console.log('Couldnt find MONGO_URI in .env'.red);
-    process.exit(1);
-}
+connectDB().then(async () => {
+    const url = await getUrls();
+    const cats = await getCategories();
+    const time = await getTime();
+    const videos = await getVideos();
+
+    const response = {
+        url: url,
+        cats: cats,
+        time: time,
+        videos: videos,
+    };
+
+    console.log(response);
+});

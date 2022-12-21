@@ -1,3 +1,5 @@
+const Certs = require('../db/Schemas/certSchema');
+
 // Get categories
 
 const getCategories = async () => {
@@ -12,11 +14,9 @@ const getCategories = async () => {
             return allCats.indexOf(cat) === index;
         });
 
-        console.log('All categories:', sortedCats);
-
-        process.exit(1);
+        return sortedCats;
     });
-}
+};
 
 // Get time
 
@@ -56,27 +56,22 @@ const getTime = async () => {
 
         toHours(total.minutes);
 
-        console.log('Total time:', total);
-
-        process.exit(1);
+        return total;
     });
-}
+};
 
 // Get urls
 
 const getUrls = async () => {
-    Certs.find({}, function (err, res) {
-        let allUrls = [];
+    const allUrls = [];
 
+    Certs.find({}, function (err, res) {
         res.forEach(function (cert) {
             allUrls.push(cert.url);
         });
-
-        console.log(allUrls);
-        console.log('certs in db:', allUrls.length);
-
-        process.exit(1);
-    })}
+    });
+    return allUrls;
+};
 
 // Get videos
 
@@ -102,15 +97,13 @@ const getVideos = async () => {
             total.videos += parseInt(newArr[i].match);
         }
 
-        console.log('total videos:', total.videos);
-
-        process.exit(1);
+        return total.videos;
     });
-}
+};
 
 module.exports = {
     getCategories,
     getTime,
     getUrls,
-    getVideos
- }
+    getVideos,
+};

@@ -1,5 +1,7 @@
 # Linkedin Certification scraper.
 
+![](https://github.com/toremann/linkedin-getcerts/workflows/prettier/badge.svg)
+
 As im progressing through Linkedin Learning im getting a few certificates. I want to show these on my own homepage, so I created this nifty scraper.
 
 As you complete courses you will be supplied an URL too ur linkedin certificate:
