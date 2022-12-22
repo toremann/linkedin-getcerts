@@ -9,10 +9,10 @@ connectDB().then(async () => {
     const videos = await getVideos();
 
     const response = {
-        url: url,
+        allUrl: url,
         cats: cats,
         time: time,
-        videos: videos,
+        videos: videos
     };
 
     console.log(response);
