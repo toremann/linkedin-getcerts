@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const statsSchema = new mongoose.Schema({
-    totalTime: Number,
-    videosAmount: Number,
-    certsAmount: Number,
+    totalTime: Object,
+    totalVideos: Number,
     allCats: Array,
+    allUrl: Array,
 });
 
 module.exports = mongoose.model('Stats', statsSchema);

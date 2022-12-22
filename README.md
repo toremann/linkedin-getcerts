@@ -29,7 +29,7 @@ ex: .env file should hold ur mongodb information:
 
 - run npm install to get dependencies
 
-### Run with node scrape from project folder
+### Run with npm start from project folder
 
 #
 
@@ -39,4 +39,15 @@ Additional collectors:
 - node .\collectTime (Gets total time spent on courses)
 - node .\collectUrls (Gets all course URL's)
 - node .\collectVideos (Gets total amount of videos)
+
+# Stats
+
+Create a collection with stats:
+
+- Array of all categories covered by certification (filtered removes duplicates)
+- Array of all certification URL's
+- Object containing total time (houres, minutes and seconds)
+- Number holding total videos watched
+
+To create stats collection: npm run stats
 

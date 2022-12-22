@@ -8,12 +8,19 @@ connectDB().then(async () => {
     const time = await getTime();
     const videos = await getVideos();
 
-    const response = {
-        allUrl: url,
-        cats: cats,
-        time: time,
-        videos: videos
+    const data = {
+        totalTime: time, // totale time spent learning
+        totalVideos: videos, // total amount of videos watched
+        allCats: cats, // total categories watched
+        allUrl: url, // collection of all certificates
     };
 
-    console.log(response);
+    Stats.findOneAndUpdate({}, data, { upsert: true, new: true }, function (error, result) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Saved to db:\n'.green);
+            console.log(`${result}\n`);
+        }
+    });
 });

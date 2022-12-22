@@ -1,11 +1,12 @@
 {
     "name": "linkedin-getcerts",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "description": "Get certificate data and push to mongoDB",
     "main": "index.js",
     "scripts": {
         "format": "prettier --write \"**/*.{js,jsx,md}\"",
-        "start": "node app"
+        "start": "node app",
+        "stats": "node stats"
     },
     "author": "Toremann",
     "license": "ISC",
