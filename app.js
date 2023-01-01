@@ -19,7 +19,7 @@ function timeout(ms) {
 }
 
 (async () => {
-    const browser = await puppeteer.launch({ headless: false, args: ['--lang=en-EN,en'] });
+    const browser = await puppeteer.launch({ headless: true, args: ['--lang=en-EN,en'] });
     const page = await browser.newPage();
 
     // Set chromium to english, we can see categories of the course with language set to english (?)
