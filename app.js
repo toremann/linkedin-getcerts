@@ -5,7 +5,7 @@ const readlineSync = require('readline-sync');
 const colors = require('colors');
 
 console.log('\n\nExample: https://www.linkedin.com/learning/certificates/7c7e80edc4g23cf139d3336ecb25b4e6d3e53657b1230a4fda0cbdcbbe9c45a3?u=12345678\n'.blue.underline);
-const url = readlineSync.question('Paste url: \n'.green).replace(/\?(.*)/, '')
+const url = readlineSync.question('Paste url: \n'.green).replace(/\?(.*)/, '');
 
 if (process.env.MONGO_URI) {
     connectDB();

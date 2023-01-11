@@ -16,9 +16,9 @@ if (process.env.MONGO_URI) {
 
         res.forEach(function (cert) {
             if (allAuthors.find(({ author }) => author === cert.author)) {
-                console.log('Found.. skipping')
+                console.log('Found.. skipping');
             } else {
-                allAuthors.push(cert.author)
+                allAuthors.push(cert.author);
             }
         });
 
