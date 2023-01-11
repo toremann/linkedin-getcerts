@@ -1,6 +1,5 @@
 const connectDB = require('../db/db');
 const Certs = require('../db/Schemas/certSchema');
-const statsSchema = require('../db/Schemas/statsSchema');
 
 if (process.env.MONGO_URI) {
     connectDB();
@@ -11,17 +10,17 @@ if (process.env.MONGO_URI) {
 
 (async () => {
     Certs.find({}, function (err, res) {
-        let allCats = [];
+        let allAuthors = [];
 
         res.forEach(function (cert) {
-            allCats.push(...cert.category);
+            allAuthors.push(cert.author);
         });
 
-        const sortedCats = allCats.filter((cat, index) => {
-            return allCats.indexOf(cat) === index;
+        const sortedAuthors = allAuthors.filter((author, index) => {
+            return allAuthors.indexOf(author) === index;
         });
 
-        console.log('All categories:', sortedCats);
+        console.log('All categories:', sortedAuthors);
 
         process.exit(1);
     });

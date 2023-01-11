@@ -1,3 +1,10 @@
+// Generate stats from DB
+// Will currently get:
+// Total time spent watching
+// Total amount of videos watched
+// Total of learning categories (removes duplicates)
+// URL's for all certifications completed
+
 const connectDB = require('./db/db');
 const Stats = require('./db/Schemas/statsSchema');
 const { getCategories, getTime, getUrls, getVideos } = require('./helpers/collectors');
