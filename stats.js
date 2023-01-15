@@ -7,19 +7,21 @@
 
 const connectDB = require('./db/db');
 const Stats = require('./db/Schemas/statsSchema');
-const { getCategories, getTime, getUrls, getVideos } = require('./helpers/collectors');
+const { getCategories, getTime, getUrls, getVideos, getAuthorAndCourses } = require('./helpers/collectors');
 
 connectDB().then(async () => {
     const url = await getUrls();
     const cats = await getCategories();
     const time = await getTime();
     const videos = await getVideos();
+    const authorAndCourses = await getAuthorAndCourses();
 
     const data = {
         totalTime: time, // totale time spent learning
         totalVideos: videos, // total amount of videos watched
         allCats: cats, // total categories watched
         allUrl: url, // collection of all certificates
+        authorCourses: authorAndCourses, // collection of authors and courses
     };
 
     Stats.findOneAndUpdate({}, data, { upsert: true, new: true }, function (error, result) {

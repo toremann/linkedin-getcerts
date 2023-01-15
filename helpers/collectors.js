@@ -98,9 +98,30 @@ const getVideos = async () => {
     return total.videos;
 };
 
+// Get author and courses
+
+const getAuthorAndCourses = async () => {
+    const allAuthors = [];
+
+    const results = await Certs.find({});
+
+    results.forEach(({ author, course }) => {
+        let search = allAuthors.find(({ author: a }) => a === author);
+
+        if (search === undefined) {
+            allAuthors.push({ author, courses: [course] });
+        } else {
+            search.courses.push(course);
+        }
+    });
+
+    return allAuthors;
+};
+
 module.exports = {
     getCategories,
     getTime,
     getUrls,
     getVideos,
+    getAuthorAndCourses,
 };
