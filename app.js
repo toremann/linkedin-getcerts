@@ -30,7 +30,7 @@ function timeout(ms) {
     await page.goto(url);
 
     // Wait for page to fully load
-    console.log('Scraping...\n'.cyan);
+    console.log('Getting certificate...\n'.cyan);
     await timeout(3000);
 
     const grabCourse = await page.evaluate(() => {
@@ -74,8 +74,6 @@ function timeout(ms) {
         videos: grabVideos,
         category: grabCategory,
     };
-
-    console.log(data);
 
     Certs.findOneAndUpdate({ url: data.url }, data, { upsert: true, new: true }, function (error, result) {
         if (error) {

@@ -5,6 +5,7 @@ const statsSchema = new mongoose.Schema({
     totalVideos: Number,
     allCats: Array,
     allUrl: Array,
+    authorCourses: Array,
 });
 
 module.exports = mongoose.model('Stats', statsSchema);
