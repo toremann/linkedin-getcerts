@@ -1,6 +1,6 @@
 # Linkedin Certification scraper.
 
-![](https://github.com/toremann/linkedin-getcerts/workflows/prettier/badge.svg)
+![idea](/idea.png)
 
 As im progressing through Linkedin Learning im getting a few certificates. I want to show these on my own homepage, so I created this nifty scraper.
 
@@ -18,7 +18,7 @@ ex: .env file should hold ur mongodb information:
 
 From project folder run with 'npm start' and goto http://localhost:3000
 
-![alt text](/frontend.png)
+![frontend](/frontend.png)
 
 When you submit your certification url the scraper will get:
 
@@ -29,6 +29,8 @@ When you submit your certification url the scraper will get:
 - amount of videos
 
 and store it to ur mongodb db. 
+
+Does not support LinkedIn Learning paths.
 
 # Api
 
