@@ -10,31 +10,47 @@ https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca
 
 - First run npm install to get dependencies
 - Create a mongodb local or on atlas (https://www.mongodb.com/)
-- Create a .env file with mongodb credentials
+- Create a .env file with mongodb credentials (see .env.example)
 
 ex: .env file should hold ur mongodb information:
 
 `MONGO_URI=mongodb+srv://user:password@collection.mongodb.net/?retryWrites=true&w=majority`
 
-From project folder run with 'npm start' in terminal and paste in url.
+From project folder run with 'npm start' and goto http://localhost:3000
 
-Scraper will get:
+![alt text](/frontend.png)
+
+When you submit your certification url the scraper will get:
+
 - course name
 - author
 - completion date
 - videos total length
 - amount of videos
 
-and send it to ur mongodb db. 
+and store it to ur mongodb db. 
 
-# Stats
+# Api
 
-Create a collection with stats:
+GET /stats
+Retrives all certification data from db
 
-- Array of all categories covered by certification (filtered removes duplicates)
-- Array of all certification URL's
-- Object containing total time (houres, minutes and seconds)
-- Number holding total videos watched
+```
+const data = {
+    totalTime: time, // total time spent learning
+    totalVideos: videos, // total number of videos watched
+    allCats: cats, // total categories watched
+    allUrl: url, // collection of all certificates
+    authorCourses: authorAndCourses, // collection of authors and courses
+ };
+```
 
-To create stats collection: npm run stats
+POST /stats
+Takes an certification url
+
+```
+{
+    "url": "https://www.linkedin.com/learning/certificates/12345ed1b0a1c123aebcafea123453af5ff8d531671cd6bfe709326cd7033ce7?u=12345567"
+}
+```
 

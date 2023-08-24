@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LinkedIn certification to db</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <h1>Add LinkedIn certification URL</h1>
+        <form id="jsonForm">
+            <label for="url">URL:</label>
+            <input type="text" id="url" name="url" required placeholder="https://www.linkedin.com/learning/certificates/dfe121da5ff68343d40e9b64edeec6eca89e3f7b83ba458cc0befe4d21cd6f02?u=12345678" />
+            <button id="status" type="submit">Submit</button>
+        </form>
+        <div class="dashboard">
+            <div class="section">
+                <h2 class="accordion-header">Statistics</h2>
+                <div class="accordion-content">
+                    <p>Total Time: <span id="totalTime"></span></p>
+                    <p>Total Videos: <span id="totalVideos"></span></p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="accordion-header">All Categories</h2>
+                <div class="accordion-content">
+                    <ul id="categoryList"></ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="accordion-header">All URLs</h2>
+                <div class="accordion-content">
+                    <ul id="urlList"></ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="accordion-header">Author and courses</h2>
+                <div class="accordion-content">
+                    <ul id="authorList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('#jsonForm').submit(function (event) {
+                    event.preventDefault();
+
+                    var urlValue = $('#url').val();
+
+                    var data = {
+                        url: urlValue,
+                    };
+
+                    $('#submit').attr('disabled', true);
+                    $('#status').text('Sending request...');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://localhost:3001/stats',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function (response) {
+                            $('#status').text('Request successful!').css('background-color', 'green');
+                        },
+                        error: function (error) {
+                            console.error('Error:', error);
+                            $('#status').text('Request failed.').css('background-color', 'red');
+                        },
+                        complete: function () {
+                            $('#submit').attr('disabled', false).text('Request submit');
+                        },
+                    });
+                });
+            });
+
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach((header) => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    if (content.style.display === 'block') {
+                        content.style.display = 'none';
+                    } else {
+                        content.style.display = 'block';
+                    }
+                });
+            });
+            async function fetchStats() {
+                try {
+                    const response = await fetch('/stats');
+                    const data = await response.json();
+
+                    console.log(data);
+
+                    const statsDataElement = document.getElementById('stats-data');
+
+                    // // Display total time and total videos
+                    document.getElementById('totalTime').textContent = `${data.totalTime.houres} hours, ${data.totalTime.minutes} minutes, ${data.totalTime.seconds} seconds`;
+                    document.getElementById('totalVideos').textContent = data.totalVideos;
+
+                    // Display categories
+                    const categoryList = document.getElementById('categoryList');
+                    data.allCats.forEach((category) => {
+                        const li = document.createElement('li');
+                        li.textContent = category;
+                        categoryList.appendChild(li);
+                    });
+
+                    // Display URLs
+                    const urlList = document.getElementById('urlList');
+                    data.allUrl.forEach((url) => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.textContent = url;
+                        li.appendChild(a);
+                        urlList.appendChild(li);
+                    });
+
+                    // Display author and courses
+                    const authorList = document.getElementById('authorList');
+                    data.authorCourses.forEach((authorData) => {
+                        const authorItem = document.createElement('li');
+                        authorItem.textContent = `Author: ${authorData.author}`;
+
+                        const courseList = document.createElement('ul');
+                        authorData.courses.forEach((course) => {
+                            const courseItem = document.createElement('li');
+                            courseItem.textContent = `Course: ${course}`;
+                            courseList.appendChild(courseItem);
+                        });
+
+                        authorItem.appendChild(courseList);
+                        authorList.appendChild(authorItem);
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            fetchStats();
+        </script>
+    </body>
+</html>

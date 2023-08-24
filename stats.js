@@ -9,27 +9,29 @@ const connectDB = require('./db/db');
 const Stats = require('./db/Schemas/statsSchema');
 const { getCategories, getTime, getUrls, getVideos, getAuthorAndCourses } = require('./helpers/collectors');
 
-connectDB().then(async () => {
-    const url = await getUrls();
-    const cats = await getCategories();
-    const time = await getTime();
-    const videos = await getVideos();
-    const authorAndCourses = await getAuthorAndCourses();
+const generateStats = async () => {
+    try {
+        await connectDB(); // Connect to the database
 
-    const data = {
-        totalTime: time, // totale time spent learning
-        totalVideos: videos, // total amount of videos watched
-        allCats: cats, // total categories watched
-        allUrl: url, // collection of all certificates
-        authorCourses: authorAndCourses, // collection of authors and courses
-    };
+        const url = await getUrls();
+        const cats = await getCategories();
+        const time = await getTime();
+        const videos = await getVideos();
+        const authorAndCourses = await getAuthorAndCourses();
 
-    Stats.findOneAndUpdate({}, data, { upsert: true, new: true }, function (error, result) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Saved to db:\n'.green);
-            console.log(`${result}\n`);
-        }
-    });
-});
+        const data = {
+            totalTime: time, // total time spent learning
+            totalVideos: videos, // total number of videos watched
+            allCats: cats, // total categories watched
+            allUrl: url, // collection of all certificates
+            authorCourses: authorAndCourses, // collection of authors and courses
+        };
+
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+module.exports = generateStats;
